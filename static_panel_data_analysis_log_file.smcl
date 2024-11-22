@@ -1,0 +1,956 @@
+{smcl}
+{txt}{sf}{ul off}{.-}
+      name:  {res}<unnamed>
+       {txt}log:  {res}C:\Users\Sangita Das\Desktop\Panel_data\Panel_Sangita\static_panel_data_analysis_log_file.smcl
+  {txt}log type:  {res}smcl
+ {txt}opened on:  {res}22 Nov 2024, 12:55:18
+{txt}
+{com}. 
+. * Load data
+. use "C:\Users\Sangita Das\Desktop\Panel_data\Panel_Sangita\Data\static_panel_data.dta", clear
+{txt}(Charitable giving)
+
+{com}. 
+. *********************************************
+. * DATA EXPLORATION
+. *********************************************
+. 
+. * Check dataset structure and summary
+. describe
+
+{txt}Contains data from {res}C:\Users\Sangita Das\Desktop\Panel_data\Panel_Sangita\Data\static_panel_data.dta
+{txt}  obs:{res}           470                          Charitable giving
+{txt} vars:{res}             8                          26 Jul 2014 07:46
+{txt} size:{res}         7,990                          
+{txt}{hline}
+              storage   display    value
+variable name   type    format     label      variable label
+{hline}
+{p 0 48}{res}{bind:subject        }{txt}{bind: byte    }{bind:{txt}%8.0g     }{space 1}{bind:         }{bind:  }{res}{res}Person ID{p_end}
+{p 0 48}{bind:time           }{txt}{bind: byte    }{bind:{txt}%8.0g     }{space 1}{bind:         }{bind:  }{res}{res}Time{p_end}
+{p 0 48}{bind:charity        }{txt}{bind: float   }{bind:{txt}%9.0g     }{space 1}{bind:         }{bind:  }{res}{res}Sum of cash & other property contributions, less carryovers from previous years{p_end}
+{p 0 48}{bind:income         }{txt}{bind: float   }{bind:{txt}%9.0g     }{space 1}{bind:         }{bind:  }{res}{res}Adjusted gross income{p_end}
+{p 0 48}{bind:price          }{txt}{bind: float   }{bind:{txt}%9.0g     }{space 1}{bind:         }{bind:  }{res}{res}1-marginal income tax rate{p_end}
+{p 0 48}{bind:age            }{txt}{bind: byte    }{bind:{txt}%8.0g     }{space 1}{bind:         }{bind:  }{res}{res}=1 if taxpayer over 64{p_end}
+{p 0 48}{bind:ms             }{txt}{bind: byte    }{bind:{txt}%8.0g     }{space 1}{bind:         }{bind:  }{res}{res}=1 if taxpayer married{p_end}
+{p 0 48}{bind:deps           }{txt}{bind: byte    }{bind:{txt}%8.0g     }{space 1}{bind:         }{bind:  }{res}{res}Number of dependents claimed on the tax return{p_end}
+{txt}{hline}
+Sorted by: 
+
+{com}. summarize
+
+{txt}    Variable {c |}        Obs        Mean    Std. Dev.       Min        Max
+{hline 13}{c +}{hline 57}
+{space 5}subject {c |}{res}        470          24    13.57911          1         47
+{txt}{space 8}time {c |}{res}        470         5.5    2.875342          1         10
+{txt}{space 5}charity {c |}{res}        470     6.57715    1.313659    2.30259    9.83788
+{txt}{space 6}income {c |}{res}        470    10.55208    .4952234     8.8223    11.9382
+{txt}{space 7}price {c |}{res}        470   -.4219725    .3028118   -1.89712          0
+{txt}{hline 13}{c +}{hline 57}
+{space 9}age {c |}{res}        470    .0723404    .2593268          0          1
+{txt}{space 10}ms {c |}{res}        470    .8510638    .3564049          0          1
+{txt}{space 8}deps {c |}{res}        470    2.397872    1.541603          0          6
+{txt}
+{com}. summarize charity income price age ms deps, detail
+
+      {txt}Sum of cash & other property contributions, less
+               carryovers from previous years
+{hline 61}
+      Percentiles      Smallest
+ 1%    {res}  2.30259        2.30259
+{txt} 5%    {res}  4.49981        2.30259
+{txt}10%    {res} 5.059425        2.30259       {txt}Obs         {res}        470
+{txt}25%    {res}  5.98645        2.30259       {txt}Sum of Wgt. {res}        470
+
+{txt}50%    {res} 6.634635                      {txt}Mean          {res}  6.57715
+                        {txt}Largest       Std. Dev.     {res} 1.313659
+{txt}75%    {res}  7.33954        9.52879
+{txt}90%    {res}  8.04012        9.70565       {txt}Variance      {res} 1.725701
+{txt}95%    {res}  8.63034        9.79702       {txt}Skewness      {res}-.7040889
+{txt}99%    {res}  9.44699        9.83788       {txt}Kurtosis      {res}  4.67438
+
+                    {txt}Adjusted gross income
+{hline 61}
+      Percentiles      Smallest
+ 1%    {res}   9.1853         8.8223
+{txt} 5%    {res}   9.6988         8.9593
+{txt}10%    {res}  9.97115         9.1529       {txt}Obs         {res}        470
+{txt}25%    {res}  10.2637         9.1737       {txt}Sum of Wgt. {res}        470
+
+{txt}50%    {res} 10.53305                      {txt}Mean          {res} 10.55208
+                        {txt}Largest       Std. Dev.     {res} .4952234
+{txt}75%    {res}  10.8846        11.8783
+{txt}90%    {res}  11.1351        11.8995       {txt}Variance      {res} .2452462
+{txt}95%    {res}  11.3419         11.907       {txt}Skewness      {res}-.1214936
+{txt}99%    {res}  11.8678        11.9382       {txt}Kurtosis      {res} 3.578021
+
+                 {txt}1-marginal income tax rate
+{hline 61}
+      Percentiles      Smallest
+ 1%    {res} -1.60944       -1.89712
+{txt} 5%    {res}  -.69315       -1.89712
+{txt}10%    {res}  -.67334       -1.89712       {txt}Obs         {res}        470
+{txt}25%    {res}  -.47804       -1.60944       {txt}Sum of Wgt. {res}        470
+
+{txt}50%    {res}  -.34249                      {txt}Mean          {res}-.4219725
+                        {txt}Largest       Std. Dev.     {res} .3028118
+{txt}75%    {res}  -.26136              0
+{txt}90%    {res}  -.17435              0       {txt}Variance      {res}  .091695
+{txt}95%    {res}  -.16252              0       {txt}Skewness      {res}-2.837575
+{txt}99%    {res}        0              0       {txt}Kurtosis      {res} 12.40387
+
+                   {txt}=1 if taxpayer over 64
+{hline 61}
+      Percentiles      Smallest
+ 1%    {res}        0              0
+{txt} 5%    {res}        0              0
+{txt}10%    {res}        0              0       {txt}Obs         {res}        470
+{txt}25%    {res}        0              0       {txt}Sum of Wgt. {res}        470
+
+{txt}50%    {res}        0                      {txt}Mean          {res} .0723404
+                        {txt}Largest       Std. Dev.     {res} .2593268
+{txt}75%    {res}        0              1
+{txt}90%    {res}        0              1       {txt}Variance      {res} .0672504
+{txt}95%    {res}        1              1       {txt}Skewness      {res} 3.301744
+{txt}99%    {res}        1              1       {txt}Kurtosis      {res} 11.90151
+
+                   {txt}=1 if taxpayer married
+{hline 61}
+      Percentiles      Smallest
+ 1%    {res}        0              0
+{txt} 5%    {res}        0              0
+{txt}10%    {res}        0              0       {txt}Obs         {res}        470
+{txt}25%    {res}        1              0       {txt}Sum of Wgt. {res}        470
+
+{txt}50%    {res}        1                      {txt}Mean          {res} .8510638
+                        {txt}Largest       Std. Dev.     {res} .3564049
+{txt}75%    {res}        1              1
+{txt}90%    {res}        1              1       {txt}Variance      {res} .1270245
+{txt}95%    {res}        1              1       {txt}Skewness      {res}-1.972127
+{txt}99%    {res}        1              1       {txt}Kurtosis      {res} 4.889286
+
+       {txt}Number of dependents claimed on the tax return
+{hline 61}
+      Percentiles      Smallest
+ 1%    {res}        0              0
+{txt} 5%    {res}        0              0
+{txt}10%    {res}        0              0       {txt}Obs         {res}        470
+{txt}25%    {res}        1              0       {txt}Sum of Wgt. {res}        470
+
+{txt}50%    {res}        2                      {txt}Mean          {res} 2.397872
+                        {txt}Largest       Std. Dev.     {res} 1.541603
+{txt}75%    {res}        3              6
+{txt}90%    {res}        5              6       {txt}Variance      {res} 2.376541
+{txt}95%    {res}        5              6       {txt}Skewness      {res} .3233406
+{txt}99%    {res}        6              6       {txt}Kurtosis      {res}  2.51633
+{txt}
+{com}. 
+. * Check for missing data
+. misstable summarize
+{txt}(variables nonmissing or string)
+
+{com}. 
+. * Inspect the first 10 rows of specific variables
+. list charity income price age ms deps in 1/10
+{txt}
+     {c TLC}{hline 9}{c -}{hline 9}{c -}{hline 10}{c -}{hline 5}{c -}{hline 4}{c -}{hline 6}{c TRC}
+     {c |} {res}charity    income      price   age   ms   deps {txt}{c |}
+     {c LT}{hline 9}{c -}{hline 9}{c -}{hline 10}{c -}{hline 5}{c -}{hline 4}{c -}{hline 6}{c RT}
+  1. {c |} {res}6.44572   10.1781     -.3285     0    1      2 {txt}{c |}
+  2. {c |} {res}6.13123   10.1857     -.3285     0    1      1 {txt}{c |}
+  3. {c |} {res}6.32794   10.3542    -.38566     0    1      1 {txt}{c |}
+  4. {c |} {res}6.41346   10.4694    -.40048     0    1      1 {txt}{c |}
+  5. {c |} {res}6.49224   10.5216    -.35667     0    1      1 {txt}{c |}
+     {c LT}{hline 9}{c -}{hline 9}{c -}{hline 10}{c -}{hline 5}{c -}{hline 4}{c -}{hline 6}{c RT}
+  6. {c |} {res}6.56526   10.5662     -.3285     0    1      1 {txt}{c |}
+  7. {c |} {res}6.59987   10.6428    -.40048     0    1      1 {txt}{c |}
+  8. {c |} {res}6.66568   10.7012    -.40048     0    1      1 {txt}{c |}
+  9. {c |} {res}2.30259   10.7091   -1.60944     0    1      1 {txt}{c |}
+ 10. {c |} {res}2.30259   10.7716     -.3285     0    1      1 {txt}{c |}
+     {c BLC}{hline 9}{c -}{hline 9}{c -}{hline 10}{c -}{hline 5}{c -}{hline 4}{c -}{hline 6}{c BRC}
+
+{com}. 
+. * Check for duplicate observations
+. duplicates report
+
+{p 0 4}{txt}Duplicates in terms of {txt} all variables{p_end}
+
+{hline 10}{c TT}{hline 27}
+   copies {c |} observations       surplus
+{hline 10}{c +}{hline 27}
+        1 {c |}          {res}470             0
+{txt}{hline 10}{c BT}{hline 27}
+
+{com}. 
+. * Frequency table for a categorical variable
+. tabulate age
+
+      {txt}=1 if {c |}
+   taxpayer {c |}
+    over 64 {c |}      Freq.     Percent        Cum.
+{hline 12}{c +}{hline 35}
+          0 {c |}{res}        436       92.77       92.77
+{txt}          1 {c |}{res}         34        7.23      100.00
+{txt}{hline 12}{c +}{hline 35}
+      Total {c |}{res}        470      100.00
+{txt}
+{com}. 
+. *********************************************
+. * DATA VISUALIZATION
+. *********************************************
+. 
+. * Histogram of continuous variables
+. *histogram charity, color(blue) title("Histogram of Charity")
+. histogram charity, color(blue) title("Histogram of Charity") xtitle("Charity")
+{txt}(bin={res}21{txt}, start={res}2.3025899{txt}, width={res}.35882334{txt})
+{res}{txt}
+{com}. graph export "C:\Users\Sangita Das\Desktop\Panel_data\Panel_Sangita\Graph\Graph_histogram_charity.png", replace
+{txt}(note: file C:\Users\Sangita Das\Desktop\Panel_data\Panel_Sangita\Graph\Graph_histogram_charity.png not found)
+(file C:\Users\Sangita Das\Desktop\Panel_data\Panel_Sangita\Graph\Graph_histogram_charity.png written in PNG format)
+
+{com}. 
+. * Scatterplot of charity vs income
+. *scatter charity income, mcolor(red) title("Scatterplot: Charity vs Income")
+. scatter charity income, mcolor(red) title("Scatterplot: Charity vs Income") ytitle("Charity contributions")
+{res}{txt}
+{com}. 
+. graph export "C:\Users\Sangita Das\Desktop\Panel_data\Panel_Sangita\Graph\scatter_plot_charity_income.png", replace
+{txt}(note: file C:\Users\Sangita Das\Desktop\Panel_data\Panel_Sangita\Graph\scatter_plot_charity_income.png not found)
+(file C:\Users\Sangita Das\Desktop\Panel_data\Panel_Sangita\Graph\scatter_plot_charity_income.png written in PNG format)
+
+{com}. 
+. * Scatterplot with a linear fit line
+. 
+. twoway (scatter charity income) (lfit charity income), title("Scatterplot with Fit Line")
+{res}{txt}
+{com}. 
+. graph export "C:\Users\Sangita Das\Desktop\Panel_data\Panel_Sangita\Graph\scatter_plot_with_fitline.png", as(png) replace
+{txt}(note: file C:\Users\Sangita Das\Desktop\Panel_data\Panel_Sangita\Graph\scatter_plot_with_fitline.png not found)
+(file C:\Users\Sangita Das\Desktop\Panel_data\Panel_Sangita\Graph\scatter_plot_with_fitline.png written in PNG format)
+
+{com}. 
+. 
+. *********************************************
+. * DATA TRANSFORMATION
+. *********************************************
+. 
+. * Recode variable categories
+. recode charity (1=10) (2=20), gen(new_charity)
+{txt}(0 differences between charity and new_charity)
+
+{com}. 
+. * Generate a new variable (log transformation)
+. generate log_charity = log(charity)
+{txt}
+{com}. 
+. * Check for multicollinearity
+. corr charity income price age ms deps
+{txt}(obs=470)
+
+             {c |}  charity   income    price      age       ms     deps
+{hline 13}{c +}{hline 54}
+     charity {c |}{res}   1.0000
+      {txt}income {c |}{res}   0.3323   1.0000
+       {txt}price {c |}{res}  -0.0657  -0.5089   1.0000
+         {txt}age {c |}{res}   0.2367  -0.0387   0.0315   1.0000
+          {txt}ms {c |}{res}   0.1122   0.1828  -0.0023  -0.2292   1.0000
+        {txt}deps {c |}{res}   0.1458   0.0520   0.0583  -0.2802   0.5505   1.0000
+
+{txt}
+{com}. 
+. * Save the cleaned dataset
+. save "C:\Users\Sangita Das\Desktop\Panel_data\Panel_Sangita\Data\cleaned_data.dta", replace
+{txt}(note: file C:\Users\Sangita Das\Desktop\Panel_data\Panel_Sangita\Data\cleaned_data.dta not found)
+file C:\Users\Sangita Das\Desktop\Panel_data\Panel_Sangita\Data\cleaned_data.dta saved
+
+{com}. 
+. *********************************************
+. * DECLARE PANEL DATA STRUCTURE
+. *********************************************
+. 
+. * Declare panel data
+. xtset subject time
+{res}{txt}{col 8}panel variable:  {res}subject (strongly balanced)
+{txt}{col 9}time variable:  {res}{col 25}time, 1 to 10
+{txt}{col 17}delta:  {res}1 unit
+{txt}
+{com}. 
+. *********************************************
+. * VISUALIZE PANEL DATA TRENDS
+. *********************************************
+. 
+. * Line plot of charity over time
+. *xtline charity, overlay legend(off) title("Charity Over Time")
+. xtline charity, overlay legend(off) title("Charity Over Time") ytitle("Charity Contributions Over Time")
+{res}{txt}
+{com}. 
+. graph export "C:\Users\Sangita Das\Desktop\Panel_data\Panel_Sangita\Graph\charity_over_time.png", replace
+{txt}(note: file C:\Users\Sangita Das\Desktop\Panel_data\Panel_Sangita\Graph\charity_over_time.png not found)
+(file C:\Users\Sangita Das\Desktop\Panel_data\Panel_Sangita\Graph\charity_over_time.png written in PNG format)
+
+{com}. 
+. *********************************************
+. * DESCRIPTIVE STATISTICS FOR PANEL DATA
+. *********************************************
+. 
+. * Summarize within and between variation
+. xtsum charity income price age ms deps
+
+{txt}Variable         {c |}      Mean   Std. Dev.       Min        Max {c |}    Observations
+{hline 17}{c +}{hline 44}{c +}{hline 16}
+charity{col 10}overall {c |} {res}  6.57715   1.313659    2.30259    9.83788{txt} {c |}{col 69}N =     470
+{col 10}between {c |}{col 31}{res} 1.130383    3.09928   9.179773{txt} {c |}{col 69}n =      47
+{col 10}within  {c |}{col 31}{res} .6873534   3.255082   8.840532{txt} {c |}     T =      10
+{col 18}{c |}{col 63}{c |}
+income{col 10}overall {c |} {res} 10.55208   .4952234     8.8223    11.9382{txt} {c |}{col 69}N =     470
+{col 10}between {c |}{col 31}{res} .3858282    9.82829   11.45227{txt} {c |}{col 69}n =      47
+{col 10}within  {c |}{col 31}{res}  .315023   9.405662   11.52408{txt} {c |}     T =      10
+{col 18}{c |}{col 63}{c |}
+price{col 10}overall {c |} {res}-.4219725   .3028118   -1.89712          0{txt} {c |}{col 69}N =     470
+{col 10}between {c |}{col 31}{res} .1242186   -.708017   -.192218{txt} {c |}{col 69}n =      47
+{col 10}within  {c |}{col 31}{res} .2766963  -1.713368  -.0072325{txt} {c |}     T =      10
+{col 18}{c |}{col 63}{c |}
+age{col 10}overall {c |} {res} .0723404   .2593268          0          1{txt} {c |}{col 69}N =     470
+{col 10}between {c |}{col 31}{res} .2123391          0         .9{txt} {c |}{col 69}n =      47
+{col 10}within  {c |}{col 31}{res} .1517489  -.8276596   .7723404{txt} {c |}     T =      10
+{col 18}{c |}{col 63}{c |}
+ms{col 10}overall {c |} {res} .8510638   .3564049          0          1{txt} {c |}{col 69}N =     470
+{col 10}between {c |}{col 31}{res}  .336783          0          1{txt} {c |}{col 69}n =      47
+{col 10}within  {c |}{col 31}{res} .1256115   .0510638   1.651064{txt} {c |}     T =      10
+{col 18}{c |}{col 63}{c |}
+deps{col 10}overall {c |} {res} 2.397872   1.541603          0          6{txt} {c |}{col 69}N =     470
+{col 10}between {c |}{col 31}{res} 1.432008          0        5.8{txt} {c |}{col 69}n =      47
+{col 10}within  {c |}{col 31}{res} .6043552  -.7021277   4.997872{txt} {c |}     T =      10
+
+{com}. 
+. *********************************************
+. * PANEL DATA REGRESSION ANALYSIS
+. *********************************************
+. 
+. * Perform OLS regression
+. reg charity income price age ms deps
+
+{txt}      Source {c |}       SS           df       MS      Number of obs   ={res}       470
+{txt}{hline 13}{c +}{hline 34}   F(5, 464)       = {res}    26.86
+{txt}       Model {c |} {res} 181.689807         5  36.3379614   {txt}Prob > F        ={res}    0.0000
+{txt}    Residual {c |} {res} 627.663928       464  1.35272398   {txt}R-squared       ={res}    0.2245
+{txt}{hline 13}{c +}{hline 34}   Adj R-squared   ={res}    0.2161
+{txt}       Total {c |} {res} 809.353735       469  1.72570093   {txt}Root MSE        =   {res} 1.1631
+
+{txt}{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 1}     charity{col 14}{c |}      Coef.{col 26}   Std. Err.{col 38}      t{col 46}   P>|t|{col 54}     [95% Con{col 67}f. Interval]
+{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 6}income {c |}{col 14}{res}{space 2} 1.035779{col 26}{space 2} .1289442{col 37}{space 1}    8.03{col 46}{space 3}0.000{col 54}{space 4} .7823917{col 67}{space 3} 1.289165
+{txt}{space 7}price {c |}{col 14}{res}{space 2} .4830921{col 26}{space 2} .2077034{col 37}{space 1}    2.33{col 46}{space 3}0.020{col 54}{space 4} .0749362{col 67}{space 3} .8912479
+{txt}{space 9}age {c |}{col 14}{res}{space 2} 1.547275{col 26}{space 2} .2169547{col 37}{space 1}    7.13{col 46}{space 3}0.000{col 54}{space 4} 1.120939{col 67}{space 3}  1.97361
+{txt}{space 10}ms {c |}{col 14}{res}{space 2}-.0080364{col 26}{space 2} .1848487{col 37}{space 1}   -0.04{col 46}{space 3}0.965{col 54}{space 4}-.3712806{col 67}{space 3} .3552078
+{txt}{space 8}deps {c |}{col 14}{res}{space 2} .1753681{col 26}{space 2} .0426421{col 37}{space 1}    4.11{col 46}{space 3}0.000{col 54}{space 4} .0915725{col 67}{space 3} .2591637
+{txt}{space 7}_cons {c |}{col 14}{res}{space 2} -4.67422{col 26}{space 2} 1.298134{col 37}{space 1}   -3.60{col 46}{space 3}0.000{col 54}{space 4} -7.22517{col 67}{space 3} -2.12327
+{txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{res}{txt}
+{com}. 
+. * Fixed Effects Model (FE)
+. xtreg charity income price age ms deps, fe
+{res}
+{txt}Fixed-effects (within) regression{col 49}Number of obs{col 67}={col 69}{res}       470
+{txt}Group variable: {res}subject{txt}{col 49}Number of groups{col 67}={col 69}{res}        47
+
+{txt}R-sq:{col 49}Obs per group:
+     within  = {res}0.1350{col 63}{txt}min{col 67}={col 69}{res}        10
+{txt}     between = {res}0.0898{col 63}{txt}avg{col 67}={col 69}{res}      10.0
+{txt}     overall = {res}0.1019{col 63}{txt}max{col 67}={col 69}{res}        10
+
+{txt}{col 49}F({res}5{txt},{res}418{txt}){col 67}={col 70}{res}    13.04
+{txt}corr(u_i, Xb){col 16}= {res}0.0243{txt}{col 49}Prob > F{col 67}={col 73}{res}0.0000
+
+{txt}{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 1}     charity{col 14}{c |}      Coef.{col 26}   Std. Err.{col 38}      t{col 46}   P>|t|{col 54}     [95% Con{col 67}f. Interval]
+{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 6}income {c |}{col 14}{res}{space 2} .8388101{col 26}{space 2} .1112668{col 37}{space 1}    7.54{col 46}{space 3}0.000{col 54}{space 4} .6200978{col 67}{space 3} 1.057522
+{txt}{space 7}price {c |}{col 14}{res}{space 2} .3660802{col 26}{space 2} .1242945{col 37}{space 1}    2.95{col 46}{space 3}0.003{col 54}{space 4} .1217601{col 67}{space 3} .6104004
+{txt}{space 9}age {c |}{col 14}{res}{space 2} .1022493{col 26}{space 2} .2080394{col 37}{space 1}    0.49{col 46}{space 3}0.623{col 54}{space 4}-.3066845{col 67}{space 3} .5111831
+{txt}{space 10}ms {c |}{col 14}{res}{space 2} .1998327{col 26}{space 2} .2638901{col 37}{space 1}    0.76{col 46}{space 3}0.449{col 54}{space 4}-.3188844{col 67}{space 3} .7185498
+{txt}{space 8}deps {c |}{col 14}{res}{space 2}-.0863524{col 26}{space 2} .0534826{col 37}{space 1}   -1.61{col 46}{space 3}0.107{col 54}{space 4}-.1914807{col 67}{space 3}  .018776
+{txt}{space 7}_cons {c |}{col 14}{res}{space 2}-2.089972{col 26}{space 2} 1.131118{col 37}{space 1}   -1.85{col 46}{space 3}0.065{col 54}{space 4}-4.313359{col 67}{space 3} .1334156
+{txt}{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+     sigma_u {c |} {res} 1.0789585
+     {txt}sigma_e {c |} {res} .67716255
+         {txt}rho {c |} {res} .71741607{txt}   (fraction of variance due to u_i)
+{hline 13}{c BT}{hline 64}
+F test that all u_i=0: F({res}46{txt}, {res}418{txt}) = {res}20.67{col 62}{txt}Prob > F = {res}0.0000
+{txt}
+{com}. estimates store fe
+{txt}
+{com}. 
+. * Random Effects Model (RE)
+. xtreg charity income price age ms deps, re
+{res}
+{txt}Random-effects GLS regression                   Number of obs     = {res}       470
+{txt}Group variable: {res}subject                         {txt}Number of groups  = {res}        47
+
+{txt}R-sq:                                           Obs per group:
+     within  = {res}0.1320                                         {txt}min = {res}        10
+{txt}     between = {res}0.1536                                         {txt}avg = {res}      10.0
+{txt}     overall = {res}0.1424                                         {txt}max = {res}        10
+
+                                                {txt}Wald chi2({res}5{txt})      =  {res}    70.99
+{txt}corr(u_i, X)   = {res}0{txt} (assumed)                    Prob > chi2       =     {res}0.0000
+
+{txt}{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 1}     charity{col 14}{c |}      Coef.{col 26}   Std. Err.{col 38}      z{col 46}   P>|z|{col 54}     [95% Con{col 67}f. Interval]
+{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 6}income {c |}{col 14}{res}{space 2} .8529966{col 26}{space 2} .1087343{col 37}{space 1}    7.84{col 46}{space 3}0.000{col 54}{space 4} .6398813{col 67}{space 3} 1.066112
+{txt}{space 7}price {c |}{col 14}{res}{space 2} .3701988{col 26}{space 2} .1253982{col 37}{space 1}    2.95{col 46}{space 3}0.003{col 54}{space 4} .1244229{col 67}{space 3} .6159748
+{txt}{space 9}age {c |}{col 14}{res}{space 2} .2770625{col 26}{space 2} .2016952{col 37}{space 1}    1.37{col 46}{space 3}0.170{col 54}{space 4}-.1182528{col 67}{space 3} .6723778
+{txt}{space 10}ms {c |}{col 14}{res}{space 2} .1996694{col 26}{space 2} .2339538{col 37}{space 1}    0.85{col 46}{space 3}0.393{col 54}{space 4}-.2588717{col 67}{space 3} .6582104
+{txt}{space 8}deps {c |}{col 14}{res}{space 2} -.036254{col 26}{space 2} .0492893{col 37}{space 1}   -0.74{col 46}{space 3}0.462{col 54}{space 4}-.1328592{col 67}{space 3} .0603512
+{txt}{space 7}_cons {c |}{col 14}{res}{space 2}-2.370568{col 26}{space 2} 1.114863{col 37}{space 1}   -2.13{col 46}{space 3}0.033{col 54}{space 4} -4.55566{col 67}{space 3}-.1854762
+{txt}{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+     sigma_u {c |} {res} .93093775
+     {txt}sigma_e {c |} {res} .67716255
+         {txt}rho {c |} {res} .65397591{txt}   (fraction of variance due to u_i)
+{hline 13}{c BT}{hline 64}
+
+{com}. estimates store re
+{txt}
+{com}. 
+. * Hausman Test (FE vs RE)
+. hausman fe re
+
+{txt}{col 18}{hline 4} Coefficients {hline 4}
+{col 14}{c |}{col 21}(b){col 34}(B){col 49}(b-B){col 59}sqrt(diag(V_b-V_B))
+{col 14}{c |}{col 17}     fe     {col 30}     re     {col 46}Difference{col 66}S.E.
+{hline 13}{c +}{hline 64}
+{space 6}income {c |}{res}{col 18} .8388101{col 31} .8529966{col 47}-.0141866{col 63} .0236041
+{txt}{space 7}price {c |}{res}{col 18} .3660802{col 31} .3701988{col 47}-.0041186{col 63}        .
+{txt}{space 9}age {c |}{res}{col 18} .1022493{col 31} .2770625{col 47}-.1748133{col 63} .0509848
+{txt}{space 10}ms {c |}{res}{col 18} .1998327{col 31} .1996694{col 47} .0001634{col 63} .1220804
+{txt}{space 8}deps {c |}{res}{col 18}-.0863524{col 31} -.036254{col 47}-.0500984{col 63} .0207595
+{txt}{hline 13}{c BT}{hline 64}
+{ralign 78:b = consistent under Ho and Ha; obtained from xtreg}
+{ralign 78:B = inconsistent under Ha, efficient under Ho; obtained from xtreg}
+
+    Test:  Ho:  difference in coefficients not systematic
+
+{ralign 25:chi2({res:5})} = (b-B)'[(V_b-V_B)^(-1)](b-B)
+{col 27}=  {res}     19.24
+{txt}{col 17}Prob>chi2 =  {res}    0.0017
+{txt}{col 17}(V_b-V_B is not positive definite)
+
+{com}. 
+. * Fixed Effects Model with robust standard errors
+. xtreg charity income price age ms deps, fe robust
+{res}
+{txt}Fixed-effects (within) regression{col 49}Number of obs{col 67}={col 69}{res}       470
+{txt}Group variable: {res}subject{txt}{col 49}Number of groups{col 67}={col 69}{res}        47
+
+{txt}R-sq:{col 49}Obs per group:
+     within  = {res}0.1350{col 63}{txt}min{col 67}={col 69}{res}        10
+{txt}     between = {res}0.0898{col 63}{txt}avg{col 67}={col 69}{res}      10.0
+{txt}     overall = {res}0.1019{col 63}{txt}max{col 67}={col 69}{res}        10
+
+{txt}{col 49}F({res}5{txt},{res}46{txt}){col 67}={col 70}{res}     9.98
+{txt}corr(u_i, Xb){col 16}= {res}0.0243{txt}{col 49}Prob > F{col 67}={col 73}{res}0.0000
+
+{txt}{ralign 78:(Std. Err. adjusted for {res:47} clusters in subject)}
+{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 14}{c |}{col 26}    Robust
+{col 1}     charity{col 14}{c |}      Coef.{col 26}   Std. Err.{col 38}      t{col 46}   P>|t|{col 54}     [95% Con{col 67}f. Interval]
+{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 6}income {c |}{col 14}{res}{space 2} .8388101{col 26}{space 2} .1395901{col 37}{space 1}    6.01{col 46}{space 3}0.000{col 54}{space 4} .5578297{col 67}{space 3}  1.11979
+{txt}{space 7}price {c |}{col 14}{res}{space 2} .3660802{col 26}{space 2} .1405001{col 37}{space 1}    2.61{col 46}{space 3}0.012{col 54}{space 4} .0832682{col 67}{space 3} .6488923
+{txt}{space 9}age {c |}{col 14}{res}{space 2} .1022493{col 26}{space 2} .1091559{col 37}{space 1}    0.94{col 46}{space 3}0.354{col 54}{space 4}-.1174702{col 67}{space 3} .3219687
+{txt}{space 10}ms {c |}{col 14}{res}{space 2} .1998327{col 26}{space 2} .6830736{col 37}{space 1}    0.29{col 46}{space 3}0.771{col 54}{space 4}-1.175123{col 67}{space 3} 1.574789
+{txt}{space 8}deps {c |}{col 14}{res}{space 2}-.0863524{col 26}{space 2} .0663068{col 37}{space 1}   -1.30{col 46}{space 3}0.199{col 54}{space 4} -.219821{col 67}{space 3} .0471162
+{txt}{space 7}_cons {c |}{col 14}{res}{space 2}-2.089972{col 26}{space 2} 1.638844{col 37}{space 1}   -1.28{col 46}{space 3}0.209{col 54}{space 4}-5.388793{col 67}{space 3}  1.20885
+{txt}{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+     sigma_u {c |} {res} 1.0789585
+     {txt}sigma_e {c |} {res} .67716255
+         {txt}rho {c |} {res} .71741607{txt}   (fraction of variance due to u_i)
+{hline 13}{c BT}{hline 64}
+
+{com}. 
+. * Random Effects Model with robust standard errors
+. xtreg charity income price age ms deps, re robust
+{res}
+{txt}Random-effects GLS regression                   Number of obs     = {res}       470
+{txt}Group variable: {res}subject                         {txt}Number of groups  = {res}        47
+
+{txt}R-sq:                                           Obs per group:
+     within  = {res}0.1320                                         {txt}min = {res}        10
+{txt}     between = {res}0.1536                                         {txt}avg = {res}      10.0
+{txt}     overall = {res}0.1424                                         {txt}max = {res}        10
+
+                                                {txt}Wald chi2({res}5{txt})      =  {res}    60.39
+{txt}corr(u_i, X)   = {res}0{txt} (assumed)                    Prob > chi2       =     {res}0.0000
+
+{txt}{ralign 78:(Std. Err. adjusted for {res:47} clusters in subject)}
+{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 14}{c |}{col 26}    Robust
+{col 1}     charity{col 14}{c |}      Coef.{col 26}   Std. Err.{col 38}      z{col 46}   P>|z|{col 54}     [95% Con{col 67}f. Interval]
+{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 6}income {c |}{col 14}{res}{space 2} .8529966{col 26}{space 2} .1278065{col 37}{space 1}    6.67{col 46}{space 3}0.000{col 54}{space 4} .6025006{col 67}{space 3} 1.103493
+{txt}{space 7}price {c |}{col 14}{res}{space 2} .3701988{col 26}{space 2} .1414177{col 37}{space 1}    2.62{col 46}{space 3}0.009{col 54}{space 4} .0930253{col 67}{space 3} .6473724
+{txt}{space 9}age {c |}{col 14}{res}{space 2} .2770625{col 26}{space 2}  .128414{col 37}{space 1}    2.16{col 46}{space 3}0.031{col 54}{space 4} .0253756{col 67}{space 3} .5287494
+{txt}{space 10}ms {c |}{col 14}{res}{space 2} .1996694{col 26}{space 2} .4772679{col 37}{space 1}    0.42{col 46}{space 3}0.676{col 54}{space 4}-.7357585{col 67}{space 3} 1.135097
+{txt}{space 8}deps {c |}{col 14}{res}{space 2} -.036254{col 26}{space 2} .0648056{col 37}{space 1}   -0.56{col 46}{space 3}0.576{col 54}{space 4}-.1632706{col 67}{space 3} .0907626
+{txt}{space 7}_cons {c |}{col 14}{res}{space 2}-2.370568{col 26}{space 2} 1.399942{col 37}{space 1}   -1.69{col 46}{space 3}0.090{col 54}{space 4}-5.114403{col 67}{space 3} .3732669
+{txt}{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+     sigma_u {c |} {res} .93093775
+     {txt}sigma_e {c |} {res} .67716255
+         {txt}rho {c |} {res} .65397591{txt}   (fraction of variance due to u_i)
+{hline 13}{c BT}{hline 64}
+
+{com}. 
+. *********************************************
+. * ADDITIONAL TESTS AND DIAGNOSTICS
+. *********************************************
+. 
+. * Lagrange Multiplier Test for Random Effects
+. xttest0
+
+{txt}Breusch and Pagan Lagrangian multiplier test for random effects
+
+        charity[subject,t] = Xb + u[subject] + e[subject,t]
+
+{col 9}Estimated results:
+{col 26}{c |}{col 34}Var{col 42}sd = sqrt(Var)
+{col 17}{hline 9}{c +}{hline 29}
+{col 16}  charity {c |}  {res} 1.725701       1.313659
+{col 24}{txt}e {c |}  {res} .4585491       .6771625
+{col 24}{txt}u {c |}  {res} .8666451       .9309377
+
+{txt}{col 9}Test:{col 17}Var(u) = 0
+{col 30}{help j_chibar:chibar2(01)} ={col 44}{res}  772.64
+{txt}{col 27}Prob > chibar2 = {col 45}{res} 0.0000
+{txt}
+{com}. 
+. * Test joint significance of time dummies
+. reg charity income price age ms deps i.time
+
+{txt}      Source {c |}       SS           df       MS      Number of obs   ={res}       470
+{txt}{hline 13}{c +}{hline 34}   F(14, 455)      = {res}     9.82
+{txt}       Model {c |} {res} 187.806394        14  13.4147424   {txt}Prob > F        ={res}    0.0000
+{txt}    Residual {c |} {res} 621.547341       455  1.36603811   {txt}R-squared       ={res}    0.2320
+{txt}{hline 13}{c +}{hline 34}   Adj R-squared   ={res}    0.2084
+{txt}       Total {c |} {res} 809.353735       469  1.72570093   {txt}Root MSE        =   {res} 1.1688
+
+{txt}{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 1}     charity{col 14}{c |}      Coef.{col 26}   Std. Err.{col 38}      t{col 46}   P>|t|{col 54}     [95% Con{col 67}f. Interval]
+{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 6}income {c |}{col 14}{res}{space 2} 1.057511{col 26}{space 2}  .157398{col 37}{space 1}    6.72{col 46}{space 3}0.000{col 54}{space 4} .7481942{col 67}{space 3} 1.366829
+{txt}{space 7}price {c |}{col 14}{res}{space 2} .7585281{col 26}{space 2} .3479339{col 37}{space 1}    2.18{col 46}{space 3}0.030{col 54}{space 4} .0747713{col 67}{space 3} 1.442285
+{txt}{space 9}age {c |}{col 14}{res}{space 2} 1.491993{col 26}{space 2} .2222359{col 37}{space 1}    6.71{col 46}{space 3}0.000{col 54}{space 4} 1.055257{col 67}{space 3} 1.928729
+{txt}{space 10}ms {c |}{col 14}{res}{space 2}-.0489193{col 26}{space 2} .1889503{col 37}{space 1}   -0.26{col 46}{space 3}0.796{col 54}{space 4}-.4202429{col 67}{space 3} .3224043
+{txt}{space 8}deps {c |}{col 14}{res}{space 2} .1812721{col 26}{space 2} .0433394{col 37}{space 1}    4.18{col 46}{space 3}0.000{col 54}{space 4} .0961018{col 67}{space 3} .2664424
+{txt}{space 12} {c |}
+{space 8}time {c |}
+{space 10}2  {c |}{col 14}{res}{space 2} .0847719{col 26}{space 2} .2413635{col 37}{space 1}    0.35{col 46}{space 3}0.726{col 54}{space 4}-.3895535{col 67}{space 3} .5590974
+{txt}{space 10}3  {c |}{col 14}{res}{space 2} .1611676{col 26}{space 2} .2421232{col 37}{space 1}    0.67{col 46}{space 3}0.506{col 54}{space 4}-.3146509{col 67}{space 3}  .636986
+{txt}{space 10}4  {c |}{col 14}{res}{space 2} .2783848{col 26}{space 2} .2435374{col 37}{space 1}    1.14{col 46}{space 3}0.254{col 54}{space 4}-.2002128{col 67}{space 3} .7569823
+{txt}{space 10}5  {c |}{col 14}{res}{space 2} .2345423{col 26}{space 2} .2451192{col 37}{space 1}    0.96{col 46}{space 3}0.339{col 54}{space 4}-.2471638{col 67}{space 3} .7162484
+{txt}{space 10}6  {c |}{col 14}{res}{space 2} .2341688{col 26}{space 2} .2477077{col 37}{space 1}    0.95{col 46}{space 3}0.345{col 54}{space 4}-.2526244{col 67}{space 3} .7209619
+{txt}{space 10}7  {c |}{col 14}{res}{space 2} .3062958{col 26}{space 2}  .249488{col 37}{space 1}    1.23{col 46}{space 3}0.220{col 54}{space 4}-.1839959{col 67}{space 3} .7965875
+{txt}{space 10}8  {c |}{col 14}{res}{space 2} .1531137{col 26}{space 2}  .251363{col 37}{space 1}    0.61{col 46}{space 3}0.543{col 54}{space 4}-.3408628{col 67}{space 3} .6470901
+{txt}{space 10}9  {c |}{col 14}{res}{space 2} .5428652{col 26}{space 2} .3197949{col 37}{space 1}    1.70{col 46}{space 3}0.090{col 54}{space 4} -.085593{col 67}{space 3} 1.171323
+{txt}{space 9}10  {c |}{col 14}{res}{space 2} .1498892{col 26}{space 2} .2648638{col 37}{space 1}    0.57{col 46}{space 3}0.572{col 54}{space 4}-.3706188{col 67}{space 3} .6703973
+{txt}{space 12} {c |}
+{space 7}_cons {c |}{col 14}{res}{space 2}-4.977204{col 26}{space 2} 1.516937{col 37}{space 1}   -3.28{col 46}{space 3}0.001{col 54}{space 4}-7.958276{col 67}{space 3}-1.996132
+{txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{res}{txt}
+{com}. testparm i.time
+
+{p 0 7}{space 1}{text:( 1)}{space 1} {res}2.time = 0{p_end}
+{p 0 7}{space 1}{text:( 2)}{space 1} 3.time = 0{p_end}
+{p 0 7}{space 1}{text:( 3)}{space 1} 4.time = 0{p_end}
+{p 0 7}{space 1}{text:( 4)}{space 1} 5.time = 0{p_end}
+{p 0 7}{space 1}{text:( 5)}{space 1} 6.time = 0{p_end}
+{p 0 7}{space 1}{text:( 6)}{space 1} 7.time = 0{p_end}
+{p 0 7}{space 1}{text:( 7)}{space 1} 8.time = 0{p_end}
+{p 0 7}{space 1}{text:( 8)}{space 1} 9.time = 0{p_end}
+{p 0 7}{space 1}{text:( 9)}{space 1} 10.time = 0{p_end}
+
+{txt}       F(  9,   455) ={res}    0.50
+{txt}{col 13}Prob > F ={res}    0.8763
+{txt}
+{com}. 
+. * Test joint significance of subject dummies
+. reg charity income price age ms deps i.subject
+
+{txt}      Source {c |}       SS           df       MS      Number of obs   ={res}       470
+{txt}{hline 13}{c +}{hline 34}   F(51, 418)      = {res}    26.41
+{txt}       Model {c |} {res} 617.680205        51  12.1113766   {txt}Prob > F        ={res}    0.0000
+{txt}    Residual {c |} {res}  191.67353       418  .458549115   {txt}R-squared       ={res}    0.7632
+{txt}{hline 13}{c +}{hline 34}   Adj R-squared   ={res}    0.7343
+{txt}       Total {c |} {res} 809.353735       469  1.72570093   {txt}Root MSE        =   {res} .67716
+
+{txt}{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 1}     charity{col 14}{c |}      Coef.{col 26}   Std. Err.{col 38}      t{col 46}   P>|t|{col 54}     [95% Con{col 67}f. Interval]
+{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 6}income {c |}{col 14}{res}{space 2} .8388101{col 26}{space 2} .1112668{col 37}{space 1}    7.54{col 46}{space 3}0.000{col 54}{space 4} .6200978{col 67}{space 3} 1.057522
+{txt}{space 7}price {c |}{col 14}{res}{space 2} .3660802{col 26}{space 2} .1242945{col 37}{space 1}    2.95{col 46}{space 3}0.003{col 54}{space 4} .1217601{col 67}{space 3} .6104004
+{txt}{space 9}age {c |}{col 14}{res}{space 2} .1022493{col 26}{space 2} .2080394{col 37}{space 1}    0.49{col 46}{space 3}0.623{col 54}{space 4}-.3066845{col 67}{space 3} .5111831
+{txt}{space 10}ms {c |}{col 14}{res}{space 2} .1998327{col 26}{space 2} .2638901{col 37}{space 1}    0.76{col 46}{space 3}0.449{col 54}{space 4}-.3188844{col 67}{space 3} .7185498
+{txt}{space 8}deps {c |}{col 14}{res}{space 2}-.0863524{col 26}{space 2} .0534826{col 37}{space 1}   -1.61{col 46}{space 3}0.107{col 54}{space 4}-.1914807{col 67}{space 3}  .018776
+{txt}{space 12} {c |}
+{space 5}subject {c |}
+{space 10}2  {c |}{col 14}{res}{space 2} 2.067444{col 26}{space 2} .4139325{col 37}{space 1}    4.99{col 46}{space 3}0.000{col 54}{space 4} 1.253795{col 67}{space 3} 2.881093
+{txt}{space 10}3  {c |}{col 14}{res}{space 2}  1.26721{col 26}{space 2} .3989346{col 37}{space 1}    3.18{col 46}{space 3}0.002{col 54}{space 4} .4830418{col 67}{space 3} 2.051378
+{txt}{space 10}4  {c |}{col 14}{res}{space 2} 1.881402{col 26}{space 2} .3353566{col 37}{space 1}    5.61{col 46}{space 3}0.000{col 54}{space 4} 1.222207{col 67}{space 3} 2.540598
+{txt}{space 10}5  {c |}{col 14}{res}{space 2} 1.679997{col 26}{space 2} .3757068{col 37}{space 1}    4.47{col 46}{space 3}0.000{col 54}{space 4} .9414865{col 67}{space 3} 2.418507
+{txt}{space 10}6  {c |}{col 14}{res}{space 2} .7563742{col 26}{space 2} .3678137{col 37}{space 1}    2.06{col 46}{space 3}0.040{col 54}{space 4} .0333793{col 67}{space 3} 1.479369
+{txt}{space 10}7  {c |}{col 14}{res}{space 2}-1.167136{col 26}{space 2} .3036384{col 37}{space 1}   -3.84{col 46}{space 3}0.000{col 54}{space 4}-1.763985{col 67}{space 3} -.570288
+{txt}{space 10}8  {c |}{col 14}{res}{space 2} 1.508769{col 26}{space 2} .3207352{col 37}{space 1}    4.70{col 46}{space 3}0.000{col 54}{space 4} .8783144{col 67}{space 3} 2.139224
+{txt}{space 10}9  {c |}{col 14}{res}{space 2} 3.090505{col 26}{space 2} .3552738{col 37}{space 1}    8.70{col 46}{space 3}0.000{col 54}{space 4} 2.392159{col 67}{space 3} 3.788851
+{txt}{space 9}10  {c |}{col 14}{res}{space 2} 1.482578{col 26}{space 2} .3260426{col 37}{space 1}    4.55{col 46}{space 3}0.000{col 54}{space 4} .8416903{col 67}{space 3} 2.123465
+{txt}{space 9}11  {c |}{col 14}{res}{space 2} .8551056{col 26}{space 2} .3137056{col 37}{space 1}    2.73{col 46}{space 3}0.007{col 54}{space 4} .2384684{col 67}{space 3} 1.471743
+{txt}{space 9}12  {c |}{col 14}{res}{space 2} 2.075499{col 26}{space 2} .4403669{col 37}{space 1}    4.71{col 46}{space 3}0.000{col 54}{space 4} 1.209889{col 67}{space 3} 2.941109
+{txt}{space 9}13  {c |}{col 14}{res}{space 2}  .734897{col 26}{space 2} .3306761{col 37}{space 1}    2.22{col 46}{space 3}0.027{col 54}{space 4} .0849018{col 67}{space 3} 1.384892
+{txt}{space 9}14  {c |}{col 14}{res}{space 2} .8861876{col 26}{space 2} .3156068{col 37}{space 1}    2.81{col 46}{space 3}0.005{col 54}{space 4} .2658133{col 67}{space 3} 1.506562
+{txt}{space 9}15  {c |}{col 14}{res}{space 2} 2.341711{col 26}{space 2} .3211754{col 37}{space 1}    7.29{col 46}{space 3}0.000{col 54}{space 4} 1.710391{col 67}{space 3} 2.973031
+{txt}{space 9}16  {c |}{col 14}{res}{space 2}-.8978266{col 26}{space 2} .3181554{col 37}{space 1}   -2.82{col 46}{space 3}0.005{col 54}{space 4}-1.523211{col 67}{space 3}-.2724427
+{txt}{space 9}17  {c |}{col 14}{res}{space 2} 1.588205{col 26}{space 2} .3070402{col 37}{space 1}    5.17{col 46}{space 3}0.000{col 54}{space 4} .9846692{col 67}{space 3}  2.19174
+{txt}{space 9}18  {c |}{col 14}{res}{space 2} 1.196152{col 26}{space 2} .3059837{col 37}{space 1}    3.91{col 46}{space 3}0.000{col 54}{space 4} .5946933{col 67}{space 3}  1.79761
+{txt}{space 9}19  {c |}{col 14}{res}{space 2} 1.474377{col 26}{space 2} .3718138{col 37}{space 1}    3.97{col 46}{space 3}0.000{col 54}{space 4} .7435193{col 67}{space 3} 2.205235
+{txt}{space 9}20  {c |}{col 14}{res}{space 2}  3.42231{col 26}{space 2} .3180928{col 37}{space 1}   10.76{col 46}{space 3}0.000{col 54}{space 4} 2.797049{col 67}{space 3} 4.047571
+{txt}{space 9}21  {c |}{col 14}{res}{space 2} .1275537{col 26}{space 2} .3391617{col 37}{space 1}    0.38{col 46}{space 3}0.707{col 54}{space 4}-.5391214{col 67}{space 3} .7942287
+{txt}{space 9}22  {c |}{col 14}{res}{space 2} .3983857{col 26}{space 2} .3198714{col 37}{space 1}    1.25{col 46}{space 3}0.214{col 54}{space 4}-.2303713{col 67}{space 3} 1.027143
+{txt}{space 9}23  {c |}{col 14}{res}{space 2} .8560959{col 26}{space 2} .3298598{col 37}{space 1}    2.60{col 46}{space 3}0.010{col 54}{space 4} .2077051{col 67}{space 3} 1.504487
+{txt}{space 9}24  {c |}{col 14}{res}{space 2} 1.274876{col 26}{space 2} .3199693{col 37}{space 1}    3.98{col 46}{space 3}0.000{col 54}{space 4} .6459269{col 67}{space 3} 1.903826
+{txt}{space 9}25  {c |}{col 14}{res}{space 2} 1.452651{col 26}{space 2} .3672892{col 37}{space 1}    3.96{col 46}{space 3}0.000{col 54}{space 4}  .730687{col 67}{space 3} 2.174615
+{txt}{space 9}26  {c |}{col 14}{res}{space 2}-.3288816{col 26}{space 2} .3084588{col 37}{space 1}   -1.07{col 46}{space 3}0.287{col 54}{space 4}-.9352053{col 67}{space 3} .2774421
+{txt}{space 9}27  {c |}{col 14}{res}{space 2} .8651426{col 26}{space 2} .3537113{col 37}{space 1}    2.45{col 46}{space 3}0.015{col 54}{space 4} .1698682{col 67}{space 3} 1.560417
+{txt}{space 9}28  {c |}{col 14}{res}{space 2} 1.284946{col 26}{space 2} .3207375{col 37}{space 1}    4.01{col 46}{space 3}0.000{col 54}{space 4} .6544865{col 67}{space 3} 1.915405
+{txt}{space 9}29  {c |}{col 14}{res}{space 2} .1925368{col 26}{space 2} .3112983{col 37}{space 1}    0.62{col 46}{space 3}0.537{col 54}{space 4}-.4193685{col 67}{space 3}  .804442
+{txt}{space 9}30  {c |}{col 14}{res}{space 2}  1.68938{col 26}{space 2} .3195925{col 37}{space 1}    5.29{col 46}{space 3}0.000{col 54}{space 4} 1.061172{col 67}{space 3} 2.317589
+{txt}{space 9}31  {c |}{col 14}{res}{space 2} 1.377841{col 26}{space 2} .3089514{col 37}{space 1}    4.46{col 46}{space 3}0.000{col 54}{space 4} .7705488{col 67}{space 3} 1.985133
+{txt}{space 9}32  {c |}{col 14}{res}{space 2} 2.217224{col 26}{space 2} .3188678{col 37}{space 1}    6.95{col 46}{space 3}0.000{col 54}{space 4}  1.59044{col 67}{space 3} 2.844009
+{txt}{space 9}33  {c |}{col 14}{res}{space 2} 1.059679{col 26}{space 2} .3176847{col 37}{space 1}    3.34{col 46}{space 3}0.001{col 54}{space 4} .4352207{col 67}{space 3} 1.684138
+{txt}{space 9}34  {c |}{col 14}{res}{space 2}  2.05777{col 26}{space 2} .3605672{col 37}{space 1}    5.71{col 46}{space 3}0.000{col 54}{space 4} 1.349019{col 67}{space 3} 2.766521
+{txt}{space 9}35  {c |}{col 14}{res}{space 2} .2515542{col 26}{space 2} .3959625{col 37}{space 1}    0.64{col 46}{space 3}0.526{col 54}{space 4}-.5267716{col 67}{space 3}  1.02988
+{txt}{space 9}36  {c |}{col 14}{res}{space 2} 2.130907{col 26}{space 2} .3929675{col 37}{space 1}    5.42{col 46}{space 3}0.000{col 54}{space 4} 1.358469{col 67}{space 3} 2.903346
+{txt}{space 9}37  {c |}{col 14}{res}{space 2} 1.723545{col 26}{space 2} .3099542{col 37}{space 1}    5.56{col 46}{space 3}0.000{col 54}{space 4} 1.114282{col 67}{space 3} 2.332808
+{txt}{space 9}38  {c |}{col 14}{res}{space 2}-2.286606{col 26}{space 2} .3505381{col 37}{space 1}   -6.52{col 46}{space 3}0.000{col 54}{space 4}-2.975643{col 67}{space 3}-1.597569
+{txt}{space 9}39  {c |}{col 14}{res}{space 2}-.0725129{col 26}{space 2} .3953772{col 37}{space 1}   -0.18{col 46}{space 3}0.855{col 54}{space 4}-.8496882{col 67}{space 3} .7046624
+{txt}{space 9}40  {c |}{col 14}{res}{space 2} .2793117{col 26}{space 2} .3092552{col 37}{space 1}    0.90{col 46}{space 3}0.367{col 54}{space 4}-.3285775{col 67}{space 3} .8872009
+{txt}{space 9}41  {c |}{col 14}{res}{space 2} .7191251{col 26}{space 2} .3074444{col 37}{space 1}    2.34{col 46}{space 3}0.020{col 54}{space 4} .1147952{col 67}{space 3} 1.323455
+{txt}{space 9}42  {c |}{col 14}{res}{space 2} 1.049334{col 26}{space 2} .3107757{col 37}{space 1}    3.38{col 46}{space 3}0.001{col 54}{space 4} .4384563{col 67}{space 3} 1.660212
+{txt}{space 9}43  {c |}{col 14}{res}{space 2} .6836184{col 26}{space 2} .3134315{col 37}{space 1}    2.18{col 46}{space 3}0.030{col 54}{space 4} .0675201{col 67}{space 3} 1.299717
+{txt}{space 9}44  {c |}{col 14}{res}{space 2} .5871589{col 26}{space 2} .3072805{col 37}{space 1}    1.91{col 46}{space 3}0.057{col 54}{space 4}-.0168488{col 67}{space 3} 1.191166
+{txt}{space 9}45  {c |}{col 14}{res}{space 2} 2.636385{col 26}{space 2} .3596279{col 37}{space 1}    7.33{col 46}{space 3}0.000{col 54}{space 4}  1.92948{col 67}{space 3} 3.343289
+{txt}{space 9}46  {c |}{col 14}{res}{space 2}-.1863832{col 26}{space 2}  .312661{col 37}{space 1}   -0.60{col 46}{space 3}0.551{col 54}{space 4} -.800967{col 67}{space 3} .4282005
+{txt}{space 9}47  {c |}{col 14}{res}{space 2}  .027923{col 26}{space 2} .3262458{col 37}{space 1}    0.09{col 46}{space 3}0.932{col 54}{space 4}-.6133639{col 67}{space 3} .6692098
+{txt}{space 12} {c |}
+{space 7}_cons {c |}{col 14}{res}{space 2}-3.117894{col 26}{space 2} 1.139684{col 37}{space 1}   -2.74{col 46}{space 3}0.006{col 54}{space 4}-5.358119{col 67}{space 3}-.8776684
+{txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{res}{txt}
+{com}. testparm i.subject
+
+{p 0 7}{space 1}{text:( 1)}{space 1} {res}2.subject = 0{p_end}
+{p 0 7}{space 1}{text:( 2)}{space 1} 3.subject = 0{p_end}
+{p 0 7}{space 1}{text:( 3)}{space 1} 4.subject = 0{p_end}
+{p 0 7}{space 1}{text:( 4)}{space 1} 5.subject = 0{p_end}
+{p 0 7}{space 1}{text:( 5)}{space 1} 6.subject = 0{p_end}
+{p 0 7}{space 1}{text:( 6)}{space 1} 7.subject = 0{p_end}
+{p 0 7}{space 1}{text:( 7)}{space 1} 8.subject = 0{p_end}
+{p 0 7}{space 1}{text:( 8)}{space 1} 9.subject = 0{p_end}
+{p 0 7}{space 1}{text:( 9)}{space 1} 10.subject = 0{p_end}
+{p 0 7}{space 1}{text:(10)}{space 1} 11.subject = 0{p_end}
+{p 0 7}{space 1}{text:(11)}{space 1} 12.subject = 0{p_end}
+{p 0 7}{space 1}{text:(12)}{space 1} 13.subject = 0{p_end}
+{p 0 7}{space 1}{text:(13)}{space 1} 14.subject = 0{p_end}
+{p 0 7}{space 1}{text:(14)}{space 1} 15.subject = 0{p_end}
+{p 0 7}{space 1}{text:(15)}{space 1} 16.subject = 0{p_end}
+{p 0 7}{space 1}{text:(16)}{space 1} 17.subject = 0{p_end}
+{p 0 7}{space 1}{text:(17)}{space 1} 18.subject = 0{p_end}
+{p 0 7}{space 1}{text:(18)}{space 1} 19.subject = 0{p_end}
+{p 0 7}{space 1}{text:(19)}{space 1} 20.subject = 0{p_end}
+{p 0 7}{space 1}{text:(20)}{space 1} 21.subject = 0{p_end}
+{p 0 7}{space 1}{text:(21)}{space 1} 22.subject = 0{p_end}
+{p 0 7}{space 1}{text:(22)}{space 1} 23.subject = 0{p_end}
+{p 0 7}{space 1}{text:(23)}{space 1} 24.subject = 0{p_end}
+{p 0 7}{space 1}{text:(24)}{space 1} 25.subject = 0{p_end}
+{p 0 7}{space 1}{text:(25)}{space 1} 26.subject = 0{p_end}
+{p 0 7}{space 1}{text:(26)}{space 1} 27.subject = 0{p_end}
+{p 0 7}{space 1}{text:(27)}{space 1} 28.subject = 0{p_end}
+{p 0 7}{space 1}{text:(28)}{space 1} 29.subject = 0{p_end}
+{p 0 7}{space 1}{text:(29)}{space 1} 30.subject = 0{p_end}
+{p 0 7}{space 1}{text:(30)}{space 1} 31.subject = 0{p_end}
+{p 0 7}{space 1}{text:(31)}{space 1} 32.subject = 0{p_end}
+{p 0 7}{space 1}{text:(32)}{space 1} 33.subject = 0{p_end}
+{p 0 7}{space 1}{text:(33)}{space 1} 34.subject = 0{p_end}
+{p 0 7}{space 1}{text:(34)}{space 1} 35.subject = 0{p_end}
+{p 0 7}{space 1}{text:(35)}{space 1} 36.subject = 0{p_end}
+{p 0 7}{space 1}{text:(36)}{space 1} 37.subject = 0{p_end}
+{p 0 7}{space 1}{text:(37)}{space 1} 38.subject = 0{p_end}
+{p 0 7}{space 1}{text:(38)}{space 1} 39.subject = 0{p_end}
+{p 0 7}{space 1}{text:(39)}{space 1} 40.subject = 0{p_end}
+{p 0 7}{space 1}{text:(40)}{space 1} 41.subject = 0{p_end}
+{p 0 7}{space 1}{text:(41)}{space 1} 42.subject = 0{p_end}
+{p 0 7}{space 1}{text:(42)}{space 1} 43.subject = 0{p_end}
+{p 0 7}{space 1}{text:(43)}{space 1} 44.subject = 0{p_end}
+{p 0 7}{space 1}{text:(44)}{space 1} 45.subject = 0{p_end}
+{p 0 7}{space 1}{text:(45)}{space 1} 46.subject = 0{p_end}
+{p 0 7}{space 1}{text:(46)}{space 1} 47.subject = 0{p_end}
+
+{txt}       F( 46,   418) ={res}   20.67
+{txt}{col 13}Prob > F ={res}    0.0000
+{txt}
+{com}. 
+. * Regression with both subject and time dummies
+. reg charity income price age ms deps i.subject i.time
+
+{txt}      Source {c |}       SS           df       MS      Number of obs   ={res}       470
+{txt}{hline 13}{c +}{hline 34}   F(60, 409)      = {res}    23.59
+{txt}       Model {c |} {res}  627.91392        60   10.465232   {txt}Prob > F        ={res}    0.0000
+{txt}    Residual {c |} {res} 181.439815       409   .44361813   {txt}R-squared       ={res}    0.7758
+{txt}{hline 13}{c +}{hline 34}   Adj R-squared   ={res}    0.7429
+{txt}       Total {c |} {res} 809.353735       469  1.72570093   {txt}Root MSE        =   {res} .66605
+
+{txt}{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 1}     charity{col 14}{c |}      Coef.{col 26}   Std. Err.{col 38}      t{col 46}   P>|t|{col 54}     [95% Con{col 67}f. Interval]
+{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 6}income {c |}{col 14}{res}{space 2} .6638673{col 26}{space 2} .1367274{col 37}{space 1}    4.86{col 46}{space 3}0.000{col 54}{space 4} .3950912{col 67}{space 3} .9326434
+{txt}{space 7}price {c |}{col 14}{res}{space 2} .4510655{col 26}{space 2} .2105724{col 37}{space 1}    2.14{col 46}{space 3}0.033{col 54}{space 4} .0371264{col 67}{space 3} .8650046
+{txt}{space 9}age {c |}{col 14}{res}{space 2}-.0979732{col 26}{space 2} .2130809{col 37}{space 1}   -0.46{col 46}{space 3}0.646{col 54}{space 4}-.5168436{col 67}{space 3} .3208973
+{txt}{space 10}ms {c |}{col 14}{res}{space 2} .2336878{col 26}{space 2} .2627053{col 37}{space 1}    0.89{col 46}{space 3}0.374{col 54}{space 4}-.2827334{col 67}{space 3}  .750109
+{txt}{space 8}deps {c |}{col 14}{res}{space 2}-.0573295{col 26}{space 2} .0558657{col 37}{space 1}   -1.03{col 46}{space 3}0.305{col 54}{space 4}-.1671493{col 67}{space 3} .0524903
+{txt}{space 12} {c |}
+{space 5}subject {c |}
+{space 10}2  {c |}{col 14}{res}{space 2} 2.185073{col 26}{space 2} .4117237{col 37}{space 1}    5.31{col 46}{space 3}0.000{col 54}{space 4} 1.375715{col 67}{space 3} 2.994432
+{txt}{space 10}3  {c |}{col 14}{res}{space 2} 1.343566{col 26}{space 2} .3935928{col 37}{space 1}    3.41{col 46}{space 3}0.001{col 54}{space 4} .5698485{col 67}{space 3} 2.117283
+{txt}{space 10}4  {c |}{col 14}{res}{space 2} 1.789716{col 26}{space 2} .3344695{col 37}{space 1}    5.35{col 46}{space 3}0.000{col 54}{space 4} 1.132223{col 67}{space 3}  2.44721
+{txt}{space 10}5  {c |}{col 14}{res}{space 2} 1.670107{col 26}{space 2} .3725089{col 37}{space 1}    4.48{col 46}{space 3}0.000{col 54}{space 4} .9378365{col 67}{space 3} 2.402378
+{txt}{space 10}6  {c |}{col 14}{res}{space 2} .6579209{col 26}{space 2} .3689753{col 37}{space 1}    1.78{col 46}{space 3}0.075{col 54}{space 4}-.0674037{col 67}{space 3} 1.383246
+{txt}{space 10}7  {c |}{col 14}{res}{space 2}-1.159939{col 26}{space 2}  .299004{col 37}{space 1}   -3.88{col 46}{space 3}0.000{col 54}{space 4}-1.747716{col 67}{space 3}-.5721631
+{txt}{space 10}8  {c |}{col 14}{res}{space 2} 1.376458{col 26}{space 2} .3220471{col 37}{space 1}    4.27{col 46}{space 3}0.000{col 54}{space 4} .7433837{col 67}{space 3} 2.009532
+{txt}{space 10}9  {c |}{col 14}{res}{space 2} 3.189991{col 26}{space 2} .3507708{col 37}{space 1}    9.09{col 46}{space 3}0.000{col 54}{space 4} 2.500452{col 67}{space 3} 3.879529
+{txt}{space 9}10  {c |}{col 14}{res}{space 2} 1.283147{col 26}{space 2} .3315356{col 37}{space 1}    3.87{col 46}{space 3}0.000{col 54}{space 4} .6314209{col 67}{space 3} 1.934874
+{txt}{space 9}11  {c |}{col 14}{res}{space 2}  .834762{col 26}{space 2} .3095448{col 37}{space 1}    2.70{col 46}{space 3}0.007{col 54}{space 4} .2262646{col 67}{space 3} 1.443259
+{txt}{space 9}12  {c |}{col 14}{res}{space 2} 2.345766{col 26}{space 2} .4393786{col 37}{space 1}    5.34{col 46}{space 3}0.000{col 54}{space 4} 1.482044{col 67}{space 3} 3.209488
+{txt}{space 9}13  {c |}{col 14}{res}{space 2} .5522253{col 26}{space 2} .3353887{col 37}{space 1}    1.65{col 46}{space 3}0.100{col 54}{space 4}-.1070754{col 67}{space 3} 1.211526
+{txt}{space 9}14  {c |}{col 14}{res}{space 2} 1.065616{col 26}{space 2} .3142508{col 37}{space 1}    3.39{col 46}{space 3}0.001{col 54}{space 4}  .447868{col 67}{space 3} 1.683365
+{txt}{space 9}15  {c |}{col 14}{res}{space 2} 2.206438{col 26}{space 2} .3220064{col 37}{space 1}    6.85{col 46}{space 3}0.000{col 54}{space 4} 1.573444{col 67}{space 3} 2.839432
+{txt}{space 9}16  {c |}{col 14}{res}{space 2}-.8974861{col 26}{space 2} .3144744{col 37}{space 1}   -2.85{col 46}{space 3}0.005{col 54}{space 4}-1.515674{col 67}{space 3}-.2792983
+{txt}{space 9}17  {c |}{col 14}{res}{space 2} 1.604162{col 26}{space 2} .3037336{col 37}{space 1}    5.28{col 46}{space 3}0.000{col 54}{space 4} 1.007088{col 67}{space 3} 2.201236
+{txt}{space 9}18  {c |}{col 14}{res}{space 2} 1.251832{col 26}{space 2} .3021245{col 37}{space 1}    4.14{col 46}{space 3}0.000{col 54}{space 4} .6579215{col 67}{space 3} 1.845743
+{txt}{space 9}19  {c |}{col 14}{res}{space 2} 1.453052{col 26}{space 2} .3688758{col 37}{space 1}    3.94{col 46}{space 3}0.000{col 54}{space 4} .7279234{col 67}{space 3} 2.178181
+{txt}{space 9}20  {c |}{col 14}{res}{space 2} 3.494787{col 26}{space 2} .3145289{col 37}{space 1}   11.11{col 46}{space 3}0.000{col 54}{space 4} 2.876492{col 67}{space 3} 4.113082
+{txt}{space 9}21  {c |}{col 14}{res}{space 2}-.0590537{col 26}{space 2} .3444479{col 37}{space 1}   -0.17{col 46}{space 3}0.864{col 54}{space 4}-.7361628{col 67}{space 3} .6180555
+{txt}{space 9}22  {c |}{col 14}{res}{space 2} .3674807{col 26}{space 2}  .316169{col 37}{space 1}    1.16{col 46}{space 3}0.246{col 54}{space 4}-.2540383{col 67}{space 3} .9889997
+{txt}{space 9}23  {c |}{col 14}{res}{space 2} .8260631{col 26}{space 2} .3292858{col 37}{space 1}    2.51{col 46}{space 3}0.013{col 54}{space 4} .1787593{col 67}{space 3} 1.473367
+{txt}{space 9}24  {c |}{col 14}{res}{space 2} 1.229318{col 26}{space 2}  .317935{col 37}{space 1}    3.87{col 46}{space 3}0.000{col 54}{space 4} .6043272{col 67}{space 3} 1.854308
+{txt}{space 9}25  {c |}{col 14}{res}{space 2} 1.325408{col 26}{space 2} .3706068{col 37}{space 1}    3.58{col 46}{space 3}0.000{col 54}{space 4} .5968761{col 67}{space 3}  2.05394
+{txt}{space 9}26  {c |}{col 14}{res}{space 2}-.3711714{col 26}{space 2}  .304394{col 37}{space 1}   -1.22{col 46}{space 3}0.223{col 54}{space 4}-.9695433{col 67}{space 3} .2272005
+{txt}{space 9}27  {c |}{col 14}{res}{space 2} .7935987{col 26}{space 2} .3525181{col 37}{space 1}    2.25{col 46}{space 3}0.025{col 54}{space 4} .1006254{col 67}{space 3} 1.486572
+{txt}{space 9}28  {c |}{col 14}{res}{space 2} 1.432883{col 26}{space 2} .3189049{col 37}{space 1}    4.49{col 46}{space 3}0.000{col 54}{space 4} .8059862{col 67}{space 3} 2.059781
+{txt}{space 9}29  {c |}{col 14}{res}{space 2} .0504734{col 26}{space 2}  .311408{col 37}{space 1}    0.16{col 46}{space 3}0.871{col 54}{space 4}-.5616866{col 67}{space 3} .6626334
+{txt}{space 9}30  {c |}{col 14}{res}{space 2} 1.594605{col 26}{space 2} .3192377{col 37}{space 1}    5.00{col 46}{space 3}0.000{col 54}{space 4} .9670539{col 67}{space 3} 2.222157
+{txt}{space 9}31  {c |}{col 14}{res}{space 2} 1.303406{col 26}{space 2} .3067248{col 37}{space 1}    4.25{col 46}{space 3}0.000{col 54}{space 4} .7004525{col 67}{space 3}  1.90636
+{txt}{space 9}32  {c |}{col 14}{res}{space 2} 2.070427{col 26}{space 2} .3204483{col 37}{space 1}    6.46{col 46}{space 3}0.000{col 54}{space 4} 1.440496{col 67}{space 3} 2.700358
+{txt}{space 9}33  {c |}{col 14}{res}{space 2} 1.081186{col 26}{space 2} .3128338{col 37}{space 1}    3.46{col 46}{space 3}0.001{col 54}{space 4}  .466223{col 67}{space 3} 1.696148
+{txt}{space 9}34  {c |}{col 14}{res}{space 2} 2.141853{col 26}{space 2} .3593006{col 37}{space 1}    5.96{col 46}{space 3}0.000{col 54}{space 4} 1.435547{col 67}{space 3} 2.848159
+{txt}{space 9}35  {c |}{col 14}{res}{space 2} .2902533{col 26}{space 2} .3914704{col 37}{space 1}    0.74{col 46}{space 3}0.459{col 54}{space 4}-.4792917{col 67}{space 3} 1.059798
+{txt}{space 9}36  {c |}{col 14}{res}{space 2} 1.976999{col 26}{space 2} .3988898{col 37}{space 1}    4.96{col 46}{space 3}0.000{col 54}{space 4} 1.192869{col 67}{space 3} 2.761129
+{txt}{space 9}37  {c |}{col 14}{res}{space 2}  1.78177{col 26}{space 2} .3061267{col 37}{space 1}    5.82{col 46}{space 3}0.000{col 54}{space 4} 1.179992{col 67}{space 3} 2.383548
+{txt}{space 9}38  {c |}{col 14}{res}{space 2}-2.283399{col 26}{space 2}  .345921{col 37}{space 1}   -6.60{col 46}{space 3}0.000{col 54}{space 4}-2.963404{col 67}{space 3}-1.603394
+{txt}{space 9}39  {c |}{col 14}{res}{space 2}-.0616739{col 26}{space 2}  .391368{col 37}{space 1}   -0.16{col 46}{space 3}0.875{col 54}{space 4}-.8310177{col 67}{space 3} .7076699
+{txt}{space 9}40  {c |}{col 14}{res}{space 2} .3171352{col 26}{space 2} .3049565{col 37}{space 1}    1.04{col 46}{space 3}0.299{col 54}{space 4}-.2823425{col 67}{space 3} .9166129
+{txt}{space 9}41  {c |}{col 14}{res}{space 2} .7669717{col 26}{space 2} .3035185{col 37}{space 1}    2.53{col 46}{space 3}0.012{col 54}{space 4} .1703207{col 67}{space 3} 1.363623
+{txt}{space 9}42  {c |}{col 14}{res}{space 2}   .93634{col 26}{space 2} .3088694{col 37}{space 1}    3.03{col 46}{space 3}0.003{col 54}{space 4} .3291704{col 67}{space 3}  1.54351
+{txt}{space 9}43  {c |}{col 14}{res}{space 2} .6356604{col 26}{space 2} .3106687{col 37}{space 1}    2.05{col 46}{space 3}0.041{col 54}{space 4} .0249537{col 67}{space 3} 1.246367
+{txt}{space 9}44  {c |}{col 14}{res}{space 2} .6757159{col 26}{space 2} .3046188{col 37}{space 1}    2.22{col 46}{space 3}0.027{col 54}{space 4}  .076902{col 67}{space 3}  1.27453
+{txt}{space 9}45  {c |}{col 14}{res}{space 2}  2.61952{col 26}{space 2} .3563509{col 37}{space 1}    7.35{col 46}{space 3}0.000{col 54}{space 4} 1.919012{col 67}{space 3} 3.320027
+{txt}{space 9}46  {c |}{col 14}{res}{space 2}-.2804602{col 26}{space 2} .3120261{col 37}{space 1}   -0.90{col 46}{space 3}0.369{col 54}{space 4}-.8938353{col 67}{space 3} .3329148
+{txt}{space 9}47  {c |}{col 14}{res}{space 2} .1386306{col 26}{space 2} .3224503{col 37}{space 1}    0.43{col 46}{space 3}0.667{col 54}{space 4}-.4952361{col 67}{space 3} .7724972
+{txt}{space 12} {c |}
+{space 8}time {c |}
+{space 10}2  {c |}{col 14}{res}{space 2} .0692485{col 26}{space 2} .1380419{col 37}{space 1}    0.50{col 46}{space 3}0.616{col 54}{space 4}-.2021115{col 67}{space 3} .3406086
+{txt}{space 10}3  {c |}{col 14}{res}{space 2} .1726781{col 26}{space 2} .1394941{col 37}{space 1}    1.24{col 46}{space 3}0.216{col 54}{space 4}-.1015368{col 67}{space 3} .4468929
+{txt}{space 10}4  {c |}{col 14}{res}{space 2} .3550988{col 26}{space 2} .1416328{col 37}{space 1}    2.51{col 46}{space 3}0.013{col 54}{space 4} .0766798{col 67}{space 3} .6335178
+{txt}{space 10}5  {c |}{col 14}{res}{space 2} .3719759{col 26}{space 2} .1422007{col 37}{space 1}    2.62{col 46}{space 3}0.009{col 54}{space 4} .0924405{col 67}{space 3} .6515113
+{txt}{space 10}6  {c |}{col 14}{res}{space 2} .3858326{col 26}{space 2} .1460365{col 37}{space 1}    2.64{col 46}{space 3}0.009{col 54}{space 4} .0987568{col 67}{space 3} .6729085
+{txt}{space 10}7  {c |}{col 14}{res}{space 2} .5185464{col 26}{space 2} .1495705{col 37}{space 1}    3.47{col 46}{space 3}0.001{col 54}{space 4} .2245236{col 67}{space 3} .8125691
+{txt}{space 10}8  {c |}{col 14}{res}{space 2} .3924852{col 26}{space 2} .1514361{col 37}{space 1}    2.59{col 46}{space 3}0.010{col 54}{space 4} .0947951{col 67}{space 3} .6901753
+{txt}{space 10}9  {c |}{col 14}{res}{space 2} .4863361{col 26}{space 2} .1987433{col 37}{space 1}    2.45{col 46}{space 3}0.015{col 54}{space 4} .0956503{col 67}{space 3} .8770219
+{txt}{space 9}10  {c |}{col 14}{res}{space 2}  .187589{col 26}{space 2} .1661738{col 37}{space 1}    1.13{col 46}{space 3}0.260{col 54}{space 4}-.1390723{col 67}{space 3} .5142504
+{txt}{space 12} {c |}
+{space 7}_cons {c |}{col 14}{res}{space 2}-1.597642{col 26}{space 2} 1.358702{col 37}{space 1}   -1.18{col 46}{space 3}0.240{col 54}{space 4}-4.268552{col 67}{space 3} 1.073268
+{txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{res}{txt}
+{com}. testparm i.subject i.time
+
+{p 0 7}{space 1}{text:( 1)}{space 1} {res}2.subject = 0{p_end}
+{p 0 7}{space 1}{text:( 2)}{space 1} 3.subject = 0{p_end}
+{p 0 7}{space 1}{text:( 3)}{space 1} 4.subject = 0{p_end}
+{p 0 7}{space 1}{text:( 4)}{space 1} 5.subject = 0{p_end}
+{p 0 7}{space 1}{text:( 5)}{space 1} 6.subject = 0{p_end}
+{p 0 7}{space 1}{text:( 6)}{space 1} 7.subject = 0{p_end}
+{p 0 7}{space 1}{text:( 7)}{space 1} 8.subject = 0{p_end}
+{p 0 7}{space 1}{text:( 8)}{space 1} 9.subject = 0{p_end}
+{p 0 7}{space 1}{text:( 9)}{space 1} 10.subject = 0{p_end}
+{p 0 7}{space 1}{text:(10)}{space 1} 11.subject = 0{p_end}
+{p 0 7}{space 1}{text:(11)}{space 1} 12.subject = 0{p_end}
+{p 0 7}{space 1}{text:(12)}{space 1} 13.subject = 0{p_end}
+{p 0 7}{space 1}{text:(13)}{space 1} 14.subject = 0{p_end}
+{p 0 7}{space 1}{text:(14)}{space 1} 15.subject = 0{p_end}
+{p 0 7}{space 1}{text:(15)}{space 1} 16.subject = 0{p_end}
+{p 0 7}{space 1}{text:(16)}{space 1} 17.subject = 0{p_end}
+{p 0 7}{space 1}{text:(17)}{space 1} 18.subject = 0{p_end}
+{p 0 7}{space 1}{text:(18)}{space 1} 19.subject = 0{p_end}
+{p 0 7}{space 1}{text:(19)}{space 1} 20.subject = 0{p_end}
+{p 0 7}{space 1}{text:(20)}{space 1} 21.subject = 0{p_end}
+{p 0 7}{space 1}{text:(21)}{space 1} 22.subject = 0{p_end}
+{p 0 7}{space 1}{text:(22)}{space 1} 23.subject = 0{p_end}
+{p 0 7}{space 1}{text:(23)}{space 1} 24.subject = 0{p_end}
+{p 0 7}{space 1}{text:(24)}{space 1} 25.subject = 0{p_end}
+{p 0 7}{space 1}{text:(25)}{space 1} 26.subject = 0{p_end}
+{p 0 7}{space 1}{text:(26)}{space 1} 27.subject = 0{p_end}
+{p 0 7}{space 1}{text:(27)}{space 1} 28.subject = 0{p_end}
+{p 0 7}{space 1}{text:(28)}{space 1} 29.subject = 0{p_end}
+{p 0 7}{space 1}{text:(29)}{space 1} 30.subject = 0{p_end}
+{p 0 7}{space 1}{text:(30)}{space 1} 31.subject = 0{p_end}
+{p 0 7}{space 1}{text:(31)}{space 1} 32.subject = 0{p_end}
+{p 0 7}{space 1}{text:(32)}{space 1} 33.subject = 0{p_end}
+{p 0 7}{space 1}{text:(33)}{space 1} 34.subject = 0{p_end}
+{p 0 7}{space 1}{text:(34)}{space 1} 35.subject = 0{p_end}
+{p 0 7}{space 1}{text:(35)}{space 1} 36.subject = 0{p_end}
+{p 0 7}{space 1}{text:(36)}{space 1} 37.subject = 0{p_end}
+{p 0 7}{space 1}{text:(37)}{space 1} 38.subject = 0{p_end}
+{p 0 7}{space 1}{text:(38)}{space 1} 39.subject = 0{p_end}
+{p 0 7}{space 1}{text:(39)}{space 1} 40.subject = 0{p_end}
+{p 0 7}{space 1}{text:(40)}{space 1} 41.subject = 0{p_end}
+{p 0 7}{space 1}{text:(41)}{space 1} 42.subject = 0{p_end}
+{p 0 7}{space 1}{text:(42)}{space 1} 43.subject = 0{p_end}
+{p 0 7}{space 1}{text:(43)}{space 1} 44.subject = 0{p_end}
+{p 0 7}{space 1}{text:(44)}{space 1} 45.subject = 0{p_end}
+{p 0 7}{space 1}{text:(45)}{space 1} 46.subject = 0{p_end}
+{p 0 7}{space 1}{text:(46)}{space 1} 47.subject = 0{p_end}
+{p 0 7}{space 1}{text:(47)}{space 1} 2.time = 0{p_end}
+{p 0 7}{space 1}{text:(48)}{space 1} 3.time = 0{p_end}
+{p 0 7}{space 1}{text:(49)}{space 1} 4.time = 0{p_end}
+{p 0 7}{space 1}{text:(50)}{space 1} 5.time = 0{p_end}
+{p 0 7}{space 1}{text:(51)}{space 1} 6.time = 0{p_end}
+{p 0 7}{space 1}{text:(52)}{space 1} 7.time = 0{p_end}
+{p 0 7}{space 1}{text:(53)}{space 1} 8.time = 0{p_end}
+{p 0 7}{space 1}{text:(54)}{space 1} 9.time = 0{p_end}
+{p 0 7}{space 1}{text:(55)}{space 1} 10.time = 0{p_end}
+
+{txt}       F( 55,   409) ={res}   18.29
+{txt}{col 13}Prob > F ={res}    0.0000
+{txt}
+{com}. 
+. *********************************************
+. * GENERATE DUMMY VARIABLES FOR PANEL IDENTIFIERS
+. *********************************************
+. 
+. * Create dummy variables for 'subject'
+. quietly tabulate subject, generate(sub_dum_)
+{txt}
+{com}. 
+. * Regression using one dummy variable as an example
+. reg charity sub_dum_47
+
+{txt}      Source {c |}       SS           df       MS      Number of obs   ={res}       470
+{txt}{hline 13}{c +}{hline 34}   F(1, 468)       = {res}     1.24
+{txt}       Model {c |} {res} 2.13349824         1  2.13349824   {txt}Prob > F        ={res}    0.2666
+{txt}    Residual {c |} {res} 807.220237       468  1.72482957   {txt}R-squared       ={res}    0.0026
+{txt}{hline 13}{c +}{hline 34}   Adj R-squared   ={res}    0.0005
+{txt}       Total {c |} {res} 809.353735       469  1.72570093   {txt}Root MSE        =   {res} 1.3133
+
+{txt}{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 1}     charity{col 14}{c |}      Coef.{col 26}   Std. Err.{col 38}      t{col 46}   P>|t|{col 54}     [95% Con{col 67}f. Interval]
+{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 2}sub_dum_47 {c |}{col 14}{res}{space 2}-.4668917{col 26}{space 2} .4198007{col 37}{space 1}   -1.11{col 46}{space 3}0.267{col 54}{space 4}-1.291819{col 67}{space 3} .3580358
+{txt}{space 7}_cons {c |}{col 14}{res}{space 2} 6.587084{col 26}{space 2} .0612342{col 37}{space 1}  107.57{col 46}{space 3}0.000{col 54}{space 4} 6.466756{col 67}{space 3} 6.707412
+{txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{res}{txt}
+{com}. 
+. * Regression with all subject dummies (not recommended due to multicollinearity)
+. reg charity income price age ms deps sub_dum_*
+{txt}note: sub_dum_36 omitted because of collinearity
+
+      Source {c |}       SS           df       MS      Number of obs   ={res}       470
+{txt}{hline 13}{c +}{hline 34}   F(51, 418)      = {res}    26.41
+{txt}       Model {c |} {res} 617.680205        51  12.1113766   {txt}Prob > F        ={res}    0.0000
+{txt}    Residual {c |} {res}  191.67353       418  .458549115   {txt}R-squared       ={res}    0.7632
+{txt}{hline 13}{c +}{hline 34}   Adj R-squared   ={res}    0.7343
+{txt}       Total {c |} {res} 809.353735       469  1.72570093   {txt}Root MSE        =   {res} .67716
+
+{txt}{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 1}     charity{col 14}{c |}      Coef.{col 26}   Std. Err.{col 38}      t{col 46}   P>|t|{col 54}     [95% Con{col 67}f. Interval]
+{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 6}income {c |}{col 14}{res}{space 2} .8388101{col 26}{space 2} .1112668{col 37}{space 1}    7.54{col 46}{space 3}0.000{col 54}{space 4} .6200978{col 67}{space 3} 1.057522
+{txt}{space 7}price {c |}{col 14}{res}{space 2} .3660802{col 26}{space 2} .1242945{col 37}{space 1}    2.95{col 46}{space 3}0.003{col 54}{space 4} .1217601{col 67}{space 3} .6104004
+{txt}{space 9}age {c |}{col 14}{res}{space 2} .1022493{col 26}{space 2} .2080394{col 37}{space 1}    0.49{col 46}{space 3}0.623{col 54}{space 4}-.3066845{col 67}{space 3} .5111831
+{txt}{space 10}ms {c |}{col 14}{res}{space 2} .1998327{col 26}{space 2} .2638901{col 37}{space 1}    0.76{col 46}{space 3}0.449{col 54}{space 4}-.3188844{col 67}{space 3} .7185498
+{txt}{space 8}deps {c |}{col 14}{res}{space 2}-.0863524{col 26}{space 2} .0534826{col 37}{space 1}   -1.61{col 46}{space 3}0.107{col 54}{space 4}-.1914807{col 67}{space 3}  .018776
+{txt}{space 3}sub_dum_1 {c |}{col 14}{res}{space 2}-2.130907{col 26}{space 2} .3929675{col 37}{space 1}   -5.42{col 46}{space 3}0.000{col 54}{space 4}-2.903346{col 67}{space 3}-1.358469
+{txt}{space 3}sub_dum_2 {c |}{col 14}{res}{space 2}-.0634635{col 26}{space 2} .4672995{col 37}{space 1}   -0.14{col 46}{space 3}0.892{col 54}{space 4}-.9820134{col 67}{space 3} .8550863
+{txt}{space 3}sub_dum_3 {c |}{col 14}{res}{space 2}-.8636975{col 26}{space 2} .4737448{col 37}{space 1}   -1.82{col 46}{space 3}0.069{col 54}{space 4}-1.794917{col 67}{space 3} .0675217
+{txt}{space 3}sub_dum_4 {c |}{col 14}{res}{space 2}-.2495051{col 26}{space 2} .3211715{col 37}{space 1}   -0.78{col 46}{space 3}0.438{col 54}{space 4}-.8808176{col 67}{space 3} .3818074
+{txt}{space 3}sub_dum_5 {c |}{col 14}{res}{space 2}-.4509107{col 26}{space 2} .4015211{col 37}{space 1}   -1.12{col 46}{space 3}0.262{col 54}{space 4}-1.240163{col 67}{space 3} .3383415
+{txt}{space 3}sub_dum_6 {c |}{col 14}{res}{space 2}-1.374533{col 26}{space 2} .3060972{col 37}{space 1}   -4.49{col 46}{space 3}0.000{col 54}{space 4}-1.976215{col 67}{space 3}-.7728515
+{txt}{space 3}sub_dum_7 {c |}{col 14}{res}{space 2}-3.298044{col 26}{space 2} .3831047{col 37}{space 1}   -8.61{col 46}{space 3}0.000{col 54}{space 4}-4.051095{col 67}{space 3}-2.544992
+{txt}{space 3}sub_dum_8 {c |}{col 14}{res}{space 2}-.6221381{col 26}{space 2} .3397395{col 37}{space 1}   -1.83{col 46}{space 3}0.068{col 54}{space 4}-1.289949{col 67}{space 3} .0456726
+{txt}{space 3}sub_dum_9 {c |}{col 14}{res}{space 2} .9595979{col 26}{space 2}  .331708{col 37}{space 1}    2.89{col 46}{space 3}0.004{col 54}{space 4} .3075743{col 67}{space 3} 1.611621
+{txt}{space 2}sub_dum_10 {c |}{col 14}{res}{space 2}-.6483297{col 26}{space 2} .3455129{col 37}{space 1}   -1.88{col 46}{space 3}0.061{col 54}{space 4}-1.327489{col 67}{space 3} .0308296
+{txt}{space 2}sub_dum_11 {c |}{col 14}{res}{space 2}-1.275802{col 26}{space 2} .3476645{col 37}{space 1}   -3.67{col 46}{space 3}0.000{col 54}{space 4} -1.95919{col 67}{space 3}-.5924132
+{txt}{space 2}sub_dum_12 {c |}{col 14}{res}{space 2}-.0554082{col 26}{space 2} .4969533{col 37}{space 1}   -0.11{col 46}{space 3}0.911{col 54}{space 4}-1.032247{col 67}{space 3} .9214307
+{txt}{space 2}sub_dum_13 {c |}{col 14}{res}{space 2} -1.39601{col 26}{space 2} .3339402{col 37}{space 1}   -4.18{col 46}{space 3}0.000{col 54}{space 4}-2.052422{col 67}{space 3} -.739599
+{txt}{space 2}sub_dum_14 {c |}{col 14}{res}{space 2} -1.24472{col 26}{space 2} .4000461{col 37}{space 1}   -3.11{col 46}{space 3}0.002{col 54}{space 4}-2.031072{col 67}{space 3}-.4583669
+{txt}{space 2}sub_dum_15 {c |}{col 14}{res}{space 2} .2108035{col 26}{space 2} .3401927{col 37}{space 1}    0.62{col 46}{space 3}0.536{col 54}{space 4}-.4578981{col 67}{space 3} .8795051
+{txt}{space 2}sub_dum_16 {c |}{col 14}{res}{space 2}-3.028734{col 26}{space 2} .3437018{col 37}{space 1}   -8.81{col 46}{space 3}0.000{col 54}{space 4}-3.704333{col 67}{space 3}-2.353135
+{txt}{space 2}sub_dum_17 {c |}{col 14}{res}{space 2}-.5427028{col 26}{space 2} .3714823{col 37}{space 1}   -1.46{col 46}{space 3}0.145{col 54}{space 4}-1.272909{col 67}{space 3} .1875034
+{txt}{space 2}sub_dum_18 {c |}{col 14}{res}{space 2}-.9347554{col 26}{space 2} .3844748{col 37}{space 1}   -2.43{col 46}{space 3}0.015{col 54}{space 4}  -1.6905{col 67}{space 3}-.1790105
+{txt}{space 2}sub_dum_19 {c |}{col 14}{res}{space 2}-.6565302{col 26}{space 2} .3099294{col 37}{space 1}   -2.12{col 46}{space 3}0.035{col 54}{space 4}-1.265745{col 67}{space 3}-.0473158
+{txt}{space 2}sub_dum_20 {c |}{col 14}{res}{space 2} 1.291403{col 26}{space 2} .3737609{col 37}{space 1}    3.46{col 46}{space 3}0.001{col 54}{space 4} .5567176{col 67}{space 3} 2.026088
+{txt}{space 2}sub_dum_21 {c |}{col 14}{res}{space 2}-2.003354{col 26}{space 2} .3262773{col 37}{space 1}   -6.14{col 46}{space 3}0.000{col 54}{space 4}-2.644702{col 67}{space 3}-1.362005
+{txt}{space 2}sub_dum_22 {c |}{col 14}{res}{space 2}-1.732522{col 26}{space 2} .3377619{col 37}{space 1}   -5.13{col 46}{space 3}0.000{col 54}{space 4}-2.396445{col 67}{space 3}-1.068598
+{txt}{space 2}sub_dum_23 {c |}{col 14}{res}{space 2}-1.274811{col 26}{space 2} .3380675{col 37}{space 1}   -3.77{col 46}{space 3}0.000{col 54}{space 4}-1.939336{col 67}{space 3}-.6102872
+{txt}{space 2}sub_dum_24 {c |}{col 14}{res}{space 2}-.8560309{col 26}{space 2} .3380181{col 37}{space 1}   -2.53{col 46}{space 3}0.012{col 54}{space 4}-1.520458{col 67}{space 3}-.1916038
+{txt}{space 2}sub_dum_25 {c |}{col 14}{res}{space 2}-.6782563{col 26}{space 2} .3058313{col 37}{space 1}   -2.22{col 46}{space 3}0.027{col 54}{space 4}-1.279415{col 67}{space 3}-.0770974
+{txt}{space 2}sub_dum_26 {c |}{col 14}{res}{space 2}-2.459789{col 26}{space 2} .3585445{col 37}{space 1}   -6.86{col 46}{space 3}0.000{col 54}{space 4}-3.164564{col 67}{space 3}-1.755014
+{txt}{space 2}sub_dum_27 {c |}{col 14}{res}{space 2}-1.265765{col 26}{space 2} .3110999{col 37}{space 1}   -4.07{col 46}{space 3}0.000{col 54}{space 4} -1.87728{col 67}{space 3}-.6542495
+{txt}{space 2}sub_dum_28 {c |}{col 14}{res}{space 2}-.8459615{col 26}{space 2} .3744157{col 37}{space 1}   -2.26{col 46}{space 3}0.024{col 54}{space 4}-1.581934{col 67}{space 3}-.1099893
+{txt}{space 2}sub_dum_29 {c |}{col 14}{res}{space 2}-1.938371{col 26}{space 2} .3694268{col 37}{space 1}   -5.25{col 46}{space 3}0.000{col 54}{space 4}-2.664536{col 67}{space 3}-1.212205
+{txt}{space 2}sub_dum_30 {c |}{col 14}{res}{space 2}-.4415269{col 26}{space 2} .3382285{col 37}{space 1}   -1.31{col 46}{space 3}0.192{col 54}{space 4}-1.106368{col 67}{space 3} .2233137
+{txt}{space 2}sub_dum_31 {c |}{col 14}{res}{space 2}-.7530664{col 26}{space 2} .3593115{col 37}{space 1}   -2.10{col 46}{space 3}0.037{col 54}{space 4}-1.459349{col 67}{space 3}-.0467839
+{txt}{space 2}sub_dum_32 {c |}{col 14}{res}{space 2}  .086317{col 26}{space 2} .3460208{col 37}{space 1}    0.25{col 46}{space 3}0.803{col 54}{space 4}-.5938408{col 67}{space 3} .7664747
+{txt}{space 2}sub_dum_33 {c |}{col 14}{res}{space 2}-1.071228{col 26}{space 2} .3733168{col 37}{space 1}   -2.87{col 46}{space 3}0.004{col 54}{space 4} -1.80504{col 67}{space 3}-.3374157
+{txt}{space 2}sub_dum_34 {c |}{col 14}{res}{space 2}-.0731372{col 26}{space 2} .4162286{col 37}{space 1}   -0.18{col 46}{space 3}0.861{col 54}{space 4}-.8912993{col 67}{space 3} .7450249
+{txt}{space 2}sub_dum_35 {c |}{col 14}{res}{space 2}-1.879353{col 26}{space 2}   .47156{col 37}{space 1}   -3.99{col 46}{space 3}0.000{col 54}{space 4}-2.806278{col 67}{space 3}-.9524287
+{txt}{space 2}sub_dum_36 {c |}{col 14}{res}{space 2}        0{col 26}{txt}  (omitted)
+{space 2}sub_dum_37 {c |}{col 14}{res}{space 2}-.4073623{col 26}{space 2} .3698325{col 37}{space 1}   -1.10{col 46}{space 3}0.271{col 54}{space 4}-1.134326{col 67}{space 3}  .319601
+{txt}{space 2}sub_dum_38 {c |}{col 14}{res}{space 2}-4.417513{col 26}{space 2}  .431158{col 37}{space 1}  -10.25{col 46}{space 3}0.000{col 54}{space 4}-5.265021{col 67}{space 3}-3.570005
+{txt}{space 2}sub_dum_39 {c |}{col 14}{res}{space 2} -2.20342{col 26}{space 2} .4597235{col 37}{space 1}   -4.79{col 46}{space 3}0.000{col 54}{space 4}-3.107078{col 67}{space 3}-1.299762
+{txt}{space 2}sub_dum_40 {c |}{col 14}{res}{space 2}-1.851596{col 26}{space 2} .3657985{col 37}{space 1}   -5.06{col 46}{space 3}0.000{col 54}{space 4} -2.57063{col 67}{space 3}-1.132562
+{txt}{space 2}sub_dum_41 {c |}{col 14}{res}{space 2}-1.411782{col 26}{space 2} .3750938{col 37}{space 1}   -3.76{col 46}{space 3}0.000{col 54}{space 4}-2.149087{col 67}{space 3}-.6744771
+{txt}{space 2}sub_dum_42 {c |}{col 14}{res}{space 2}-1.081573{col 26}{space 2} .3969559{col 37}{space 1}   -2.72{col 46}{space 3}0.007{col 54}{space 4}-1.861852{col 67}{space 3}-.3012946
+{txt}{space 2}sub_dum_43 {c |}{col 14}{res}{space 2}-1.447289{col 26}{space 2} .3477226{col 37}{space 1}   -4.16{col 46}{space 3}0.000{col 54}{space 4}-2.130792{col 67}{space 3} -.763786
+{txt}{space 2}sub_dum_44 {c |}{col 14}{res}{space 2}-1.543748{col 26}{space 2} .3989188{col 37}{space 1}   -3.87{col 46}{space 3}0.000{col 54}{space 4}-2.327885{col 67}{space 3}-.7596115
+{txt}{space 2}sub_dum_45 {c |}{col 14}{res}{space 2} .5054777{col 26}{space 2} .3128646{col 37}{space 1}    1.62{col 46}{space 3}0.107{col 54}{space 4}-.1095063{col 67}{space 3} 1.120462
+{txt}{space 2}sub_dum_46 {c |}{col 14}{res}{space 2}-2.317291{col 26}{space 2} .3513974{col 37}{space 1}   -6.59{col 46}{space 3}0.000{col 54}{space 4}-3.008017{col 67}{space 3}-1.626564
+{txt}{space 2}sub_dum_47 {c |}{col 14}{res}{space 2}-2.102984{col 26}{space 2} .3538114{col 37}{space 1}   -5.94{col 46}{space 3}0.000{col 54}{space 4}-2.798456{col 67}{space 3}-1.407513
+{txt}{space 7}_cons {c |}{col 14}{res}{space 2}-.9869862{col 26}{space 2} 1.174292{col 37}{space 1}   -0.84{col 46}{space 3}0.401{col 54}{space 4} -3.29524{col 67}{space 3} 1.321267
+{txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{res}{txt}
+{com}. 
+. * save the final data with dummy variables
+. save "C:\Users\Sangita Das\Desktop\Panel_data\Panel_Sangita\Data\data_with_dummy_variables.dta", replace
+{txt}(note: file C:\Users\Sangita Das\Desktop\Panel_data\Panel_Sangita\Data\data_with_dummy_variables.dta not found)
+file C:\Users\Sangita Das\Desktop\Panel_data\Panel_Sangita\Data\data_with_dummy_variables.dta saved
+
+{com}. *********************************************
+. * END OF SCRIPT
+. *********************************************
+. 
+. * Close the log file to save all output
+. log close
+      {txt}name:  {res}<unnamed>
+       {txt}log:  {res}C:\Users\Sangita Das\Desktop\Panel_data\Panel_Sangita\static_panel_data_analysis_log_file.smcl
+  {txt}log type:  {res}smcl
+ {txt}closed on:  {res}22 Nov 2024, 12:55:35
+{txt}{.-}
+{smcl}
+{txt}{sf}{ul off}
