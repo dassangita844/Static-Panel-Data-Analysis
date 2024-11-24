@@ -29,13 +29,12 @@ This repository contains code and resources for conducting static panel data ana
 
 The data was provided during the **Workshop on Panel Data Analysis** at **Rabindra Bharati University**, held on **21st March 2024**.  
 
-- **Resource Person**: Prof. Sebak Kumar Jana  
-  Department of Economics, Vidyasagar University  
+- **Resource Person**: Prof. Sebak Kumar Jana, Department of Economics, Vidyasagar University  
 
 
 ## **Acknowledgment**
 
-Special thanks to **Rabindra Bharati University** and **Prof. Sebak Kumar Jana** for providing the dataset and their invaluable insights on panel data analysis.
+Special thanks to **Rabindra Bharati University** for organizing the workshop and to **Prof. Sebak Kumar Jana** for providing the dataset and sharing his invaluable insights on static panel data analysis.
 
 
 ## **Key Features of the Script**
